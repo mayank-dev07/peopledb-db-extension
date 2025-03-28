@@ -1,0 +1,15 @@
+const createStaticButton = () => {
+  const button = document.createElement("button");
+  button.className = "peopledb-static-button";
+  button.innerHTML = "Open PeopleDB Drawer";
+
+  // ... existing button styles ...
+
+  // Click handler for drawer
+  button.addEventListener("click", () => {
+    // Dispatch custom event to open drawer
+    window.dispatchEvent(new Event("openPeopleDBDrawer"));
+  });
+
+  document.body.appendChild(button);
+}; 
