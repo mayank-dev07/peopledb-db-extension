@@ -8,6 +8,17 @@ interface DefaultProps {
 }
 
 export default function Default({ isLinkedIn }: DefaultProps) {
+  const openPeopleDBDrawer = () => {
+    if (typeof chrome !== "undefined" && chrome.tabs) {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0 && tabs[0].id) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "openDrawer" });
+          window.close(); // Close the popup after sending the message
+        }
+      });
+    }
+  };
+
   return (
     <div className="bg-white w-[400px] h-[500px]">
       <div className="max-w-md mx-auto p-4">
@@ -27,6 +38,7 @@ export default function Default({ isLinkedIn }: DefaultProps) {
               color="primary"
               size="lg"
               className="bg-blue-600 text-white font-semibold"
+              onPress={openPeopleDBDrawer}
             >
               Open PeopleDB Drawer
             </Button>

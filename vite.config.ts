@@ -14,6 +14,8 @@ export default defineConfig({
         { src: "src/chrome-extension/public/32.png", dest: "./public" },
         { src: "src/chrome-extension/public/48.png", dest: "./public" },
         { src: "src/chrome-extension/public/192.png", dest: "./public" },
+        { src: "src/chrome-extension/content.html", dest: "." },
+        { src: "src/chrome-extension/global.css", dest: "." },
       ],
     }),
   ],
@@ -21,6 +23,8 @@ export default defineConfig({
     open: "/popup-local.html",
   },
   build: {
+    outDir: "dist",
+    sourcemap: true,
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "popup.html"),
@@ -29,18 +33,17 @@ export default defineConfig({
           __dirname,
           "src/chrome-extension/content-scripts/linkedin.ts"
         ),
-        drawer: resolve(
-          __dirname,
-          "src/chrome-extension/content-scripts/DrawerContainer.tsx"
-        ),
+        content: resolve(__dirname, "src/chrome-extension/content.tsx"),
       },
       output: {
         entryFileNames: (chunkInfo) => {
-          if (chunkInfo.name === "linkedin" || chunkInfo.name === "drawer") {
+          if (chunkInfo.name === "linkedin") {
             return "content-scripts/[name].js";
           }
           return "[name].js";
         },
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
       },
     },
   },

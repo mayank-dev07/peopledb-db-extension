@@ -14,8 +14,21 @@
         "*://*.linkedin.com/*"
       ],
       "js": [
-        "content-scripts/linkedin.js",
-        "content-scripts/drawer.js"
+        "content-scripts/linkedin.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content.html",
+        "content.js",
+        "assets/*",
+        "global.css"
+      ],
+      "matches": [
+        "*://*.linkedin.com/*"
       ]
     }
   ],
