@@ -10,19 +10,36 @@ import {
   Avatar,
   Tabs,
   Tab,
+  Input,
+  CardBody,
+  Link,
+  Progress,
+  CardHeader,
 } from "@nextui-org/react";
 import {
+  // Award,
+  BarChart,
   BarChart2,
-  Clock,
-  Computer,
+  Briefcase,
+  // Clock,
   ExternalLink,
+  Globe,
   Info,
-  ListFilter,
+  Linkedin,
+  List,
   Mail,
-  Menu,
+  MapPin,
+  MessageSquare,
+  Monitor,
   MoreHorizontal,
-  Plus,
+  MoreVertical,
+  Phone,
+  Puzzle,
+  Rocket,
   Search,
+  Send,
+  Settings,
+  Smartphone,
   Users,
   X,
 } from "lucide-react";
@@ -30,237 +47,511 @@ import { useEffect, useState } from "react";
 
 // Prospect Tab Component
 const ProspectTab = () => {
+  const [showPhone, setShowPhone] = useState(false);
+
   return (
-    <main className="flex-1 overflow-auto">
-      <div className="space-y-4">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-yellow-300">
-            <span className="text-lg">🧠</span>
-          </div>
-          <div>
-            <h2 className="font-semibold text-gray-900">Assaf Eisenstein</h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          <Button
-            variant="bordered"
-            className="h-12 justify-start px-4 py-2 border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-100"
-          >
-            <Computer className="h-4 w-4 mr-2" />
-            <span>CRM</span>
-          </Button>
-          <Button
-            variant="bordered"
-            className="h-12 justify-start px-4 py-2 border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-100"
-          >
-            <ListFilter className="h-4 w-4 mr-2" />
-            <span>List</span>
-          </Button>
-          <Button
-            variant="bordered"
-            className="h-12 justify-start px-4 py-2 border-blue-200 text-blue-600 bg-blue-50 hover:bg-blue-100"
-          >
-            <BarChart2 className="h-4 w-4 mr-2" />
-            <span>Sequence</span>
-          </Button>
-        </div>
-
-        <div className="space-y-3">
-          <div className="flex items-center text-sm text-gray-500">
-            <span>Contact saved to:</span>
-            <Avatar className="h-4 w-4 ml-1 bg-black text-white">
-              <span className="text-[8px] font-bold">L</span>
-            </Avatar>
-          </div>
-
-          <div className="flex items-center text-sm">
-            <Mail className="h-4 w-4 mr-2 text-gray-400" />
-            <span className="text-gray-700">assaf@lusha.com</span>
-          </div>
-
-          <button className="flex items-center text-sm text-blue-600">
-            <Plus className="h-4 w-4 mr-1" />
-            <span>Add tags</span>
-          </button>
-        </div>
-
-        <Card className="p-3 mt-6">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white">
-                <span className="text-xs font-bold">L</span>
-              </div>
-              <span className="font-semibold">Lusha</span>
-            </div>
-            <Button variant="ghost" className="h-8 w-8">
-              <Menu className="h-5 w-5" />
+    <div className="max-w-md mx-auto bg-white">
+      <Card className="shadow-none border-none">
+        <CardBody className="p-0">
+          {/* Profile Section */}
+          <div className="p-4 pb-6 flex flex-col items-center border-b">
+            <Avatar
+              className="w-12 h-12 text-black bg-yellow-400 mb-2"
+              icon={<div className="text-lg">💡</div>}
+            />
+            <h2 className="text-lg font-semibold mb-4">Bhagya Mudgal</h2>
+            <Button
+              color="primary"
+              className="w-full"
+              startContent={<Phone className="w-5 h-5" />}
+              onPress={() => setShowPhone(!showPhone)}
+            >
+              Show phones
             </Button>
+
+            {showPhone ? (
+              <div className="flex items-center gap-2 mt-4 text-gray-600">
+                <Smartphone className="w-5 h-5" />
+                <span>+91 639 123 4567</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 mt-4 text-gray-600">
+                <Smartphone className="w-5 h-5" />
+                <span>+91 639••••••</span>
+              </div>
+            )}
           </div>
-        </Card>
 
-        <div className="space-y-4 mt-1">
-          <button className="flex items-center text-sm text-gray-600">
-            <Search className="h-4 w-4 mr-2 text-gray-400" />
-            <span>View all employees</span>
-            <ExternalLink className="h-3 w-3 ml-1 text-gray-400" />
-          </button>
-
-          <div className="flex items-center text-sm text-gray-600">
-            <Computer className="h-4 w-4 mr-2 text-gray-400" />
-            <span>lusha.com</span>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center text-sm text-gray-600">
-              <Info className="h-4 w-4 mr-2 text-gray-400" />
-              <span>About</span>
+          {/* Company Section */}
+          <div className="p-4">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-blue-600" />
+                <span className="font-semibold">DoKreativ</span>
+              </div>
+              <Button isIconOnly variant="light" className="min-w-0">
+                <MoreVertical className="w-5 h-5" />
+              </Button>
             </div>
-            <p className="text-sm text-gray-600 ml-6">
-              Lusha helps business professionals establish a fast and true
-              connection with their leads, contacts, and candidates. B2B
-            </p>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-gray-600">
+                <Search className="w-5 h-5" />
+                <span>View all employees</span>
+                <ExternalLink className="w-4 h-4" />
+              </div>
+
+              <div className="flex items-center gap-2 text-gray-600">
+                <Monitor className="w-5 h-5" />
+                <span>dokreativ.com</span>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <Info className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">About</div>
+                  <div>DoKreativ is a technology consulting firm.</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <Users className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">Number of employees</div>
+                  <div>1 - 10</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <BarChart className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">Industry</div>
+                  <div>Business Services</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <BarChart className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">Sub industry</div>
+                  <div>IT Consulting & IT Services</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <Globe className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">Country</div>
+                  <div>India</div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 text-gray-600">
+                <MessageSquare className="w-5 h-5 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-gray-500">Social media</div>
+                  <div className="mt-1">
+                    <Linkedin className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </main>
+        </CardBody>
+      </Card>
+    </div>
   );
 };
 
 // Search Tab Component
 const SearchTab = () => {
-  return (
-    <div className="space-y-4">
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Search for people..."
-          className="w-full p-2 pl-9 border rounded-md"
-        />
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-      </div>
+  const [selected, setSelected] = useState("contacts");
 
-      <div className="space-y-3">
-        <h3 className="font-medium text-gray-700">Recent Searches</h3>
-        <div className="space-y-2">
-          {["Marketing Directors", "Software Engineers", "VPs of Sales"].map(
-            (search, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-2 text-gray-400" />
-                  <span className="text-sm text-gray-600">{search}</span>
-                </div>
-                <Button isIconOnly size="sm" variant="light">
-                  <Search className="h-4 w-4 text-gray-400" />
-                </Button>
-              </div>
-            )
-          )}
+  return (
+    <div className="max-w-md mx-auto bg-white flex flex-col justify-stretch">
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Search className="w-5 h-5" />
+          <h1 className="text-2xl font-bold">Search</h1>
         </div>
       </div>
 
-      <div className="space-y-3">
-        <h3 className="font-medium text-gray-700">Suggested Searches</h3>
-        <div className="grid grid-cols-2 gap-2">
-          {["Marketing", "Sales", "Engineering", "Design"].map(
-            (category, index) => (
-              <Button
-                key={index}
-                variant="flat"
-                className="justify-start text-sm bg-gray-100"
-              >
-                {category}
-              </Button>
-            )
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Activity Tab Component
-const ActivityTab = () => {
-  return (
-    <div className="space-y-4">
-      <h3 className="font-medium text-gray-700">Recent Activity</h3>
-
-      <div className="space-y-4">
-        {[
-          {
-            action: "Profile viewed",
-            time: "Today, 2:34 PM",
-            icon: <Users className="h-4 w-4 text-blue-500" />,
-          },
-          {
-            action: "Email sent",
-            time: "Yesterday, 11:20 AM",
-            icon: <Mail className="h-4 w-4 text-green-500" />,
-          },
-          {
-            action: "Added to sequence",
-            time: "Aug 24, 2023",
-            icon: <BarChart2 className="h-4 w-4 text-purple-500" />,
-          },
-        ].map((activity, index) => (
-          <div
-            key={index}
-            className="flex items-start space-x-3 p-3 bg-gray-50 rounded-md"
-          >
-            <div className="bg-white p-2 rounded-full shadow-sm">
-              {activity.icon}
+      <Tabs
+        selectedKey={selected}
+        onSelectionChange={(key) => setSelected(key.toString())}
+        classNames={{
+          tabList:
+            "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+          cursor: "w-full bg-black h-[2px]",
+          tab: "w-full px-0 h-12",
+          tabContent: "group-data-[selected=true]:text-black font-medium",
+        }}
+        className="w-full flex justify-center items-center"
+      >
+        <Tab
+          key="contacts"
+          className="w-full"
+          title={
+            <div className="flex items-center gap-2">
+              <Users className="w-5 h-5" />
+              <span>Contacts</span>
             </div>
+          }
+        >
+          <div className="mt-4 space-y-4">
             <div>
-              <p className="font-medium text-gray-800">{activity.action}</p>
-              <p className="text-xs text-gray-500">{activity.time}</p>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <Briefcase className="w-5 h-5" />
+                <span className="font-medium">Job title</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Job title"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
             </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <MapPin className="w-5 h-5" />
+                <span className="font-medium">Contact location</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Contact location"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            {/* <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <Award className="w-5 h-5" />
+                <span className="font-medium">Seniority</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Seniority"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div> */}
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <Users className="w-5 h-5" />
+                <span className="font-medium">Department</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Department"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <BarChart className="w-5 h-5" />
+                <span className="font-medium">Industry</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Main industry"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            {/* <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <BarChart2 className="w-5 h-5" />
+                <span className="font-medium">Sub industry</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Sub industry"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div> */}
           </div>
-        ))}
-      </div>
+        </Tab>
+        <Tab
+          key="companies"
+          title={
+            <div className="flex items-center gap-2">
+              <BarChart2 className="w-5 h-5" />
+              <span>Companies</span>
+            </div>
+          }
+        >
+          <div className="mt-4 space-y-4">
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <BarChart2 className="w-5 h-5" />
+                <span className="font-medium">Company name</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Company name"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <MapPin className="w-5 h-5" />
+                <span className="font-medium">Company location</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Company location"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <Users className="w-5 h-5" />
+                <span className="font-medium">Company size</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Company size"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <BarChart className="w-5 h-5" />
+                <span className="font-medium">Industry</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Industry"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div>
+
+            {/* <div>
+              <div className="flex items-center gap-2 text-black mb-1">
+                <BarChart2 className="w-5 h-5" />
+                <span className="font-medium">Sub industry</span>
+              </div>
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  inputWrapper: "border-1 rounded-md h-12",
+                }}
+                placeholder="Enter Sub industry"
+                startContent={<Search className="w-5 h-5 text-gray-400" />}
+              />
+            </div> */}
+          </div>
+        </Tab>
+      </Tabs>
 
       <Button className="w-full" variant="bordered">
-        View All Activity
+        <Search className="w-5 h-5" />
+        <span>Search</span>
       </Button>
     </div>
   );
 };
 
+// Activity Tab Component
+// const ActivityTab = () => {
+//   return (
+//     <div className="space-y-4">
+//       <h3 className="font-medium text-gray-700">Recent Activity</h3>
+
+//       <div className="space-y-4">
+//         {[
+//           {
+//             action: "Profile viewed",
+//             time: "Today, 2:34 PM",
+//             icon: <Users className="h-4 w-4 text-blue-500" />,
+//           },
+//           {
+//             action: "Email sent",
+//             time: "Yesterday, 11:20 AM",
+//             icon: <Mail className="h-4 w-4 text-green-500" />,
+//           },
+//           {
+//             action: "Added to sequence",
+//             time: "Aug 24, 2023",
+//             icon: <BarChart2 className="h-4 w-4 text-purple-500" />,
+//           },
+//         ].map((activity, index) => (
+//           <div
+//             key={index}
+//             className="flex items-start space-x-3 p-3 bg-gray-50 rounded-md"
+//           >
+//             <div className="bg-white p-2 rounded-full shadow-sm">
+//               {activity.icon}
+//             </div>
+//             <div>
+//               <p className="font-medium text-gray-800">{activity.action}</p>
+//               <p className="text-xs text-gray-500">{activity.time}</p>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       <Button className="w-full" variant="bordered">
+//         View All Activity
+//       </Button>
+//     </div>
+//   );
+// };
+
 // More Tab Component
 const MoreTab = () => {
   return (
-    <div className="space-y-4">
-      <div className="space-y-1">
-        <h3 className="font-medium text-gray-700">Actions</h3>
-        <p className="text-xs text-gray-500">Additional tools and features</p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        {[
-          { name: "Export", icon: <ExternalLink className="h-4 w-4 mr-2" /> },
-          { name: "Share", icon: <Users className="h-4 w-4 mr-2" /> },
-          { name: "Settings", icon: <Menu className="h-4 w-4 mr-2" /> },
-          { name: "Help", icon: <Info className="h-4 w-4 mr-2" /> },
-        ].map((action, index) => (
-          <Button
-            key={index}
-            variant="flat"
-            className="justify-start bg-gray-50"
-          >
-            {action.icon}
-            <span>{action.name}</span>
-          </Button>
-        ))}
-      </div>
-
-      <div className="p-3 bg-blue-50 rounded-md border border-blue-100">
-        <h4 className="font-medium text-blue-800 mb-1">Upgrade to Pro</h4>
-        <p className="text-xs text-blue-600 mb-2">
-          Get unlimited access to all features
-        </p>
-        <Button color="primary" size="sm" className="w-full">
-          Learn More
+    <div className="max-w-md mx-auto space-y-4">
+      {/* Profile Header */}
+      <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
+        <div className="flex items-center gap-3">
+          <Avatar
+            className="bg-yellow-400 text-black"
+            icon={<span className="text-xl">👤</span>}
+          />
+          <div>
+            <h2 className="font-bold text-lg">AYUSH AGRAWAL</h2>
+            <div className="flex items-center gap-1 text-sm">
+              <span className="text-gray-500">Free plan.</span>
+              <Link href="#" className="text-blue-600 font-medium">
+                Upgrade
+              </Link>
+            </div>
+          </div>
+        </div>
+        <Button isIconOnly variant="light" aria-label="Settings">
+          <Settings size={20} />
         </Button>
       </div>
+
+      {/* Account Credits Card */}
+      <Card className="shadow-sm">
+        <CardBody className="gap-4">
+          <h3 className="text-lg font-semibold">Account credits</h3>
+
+          <div className="space-y-1">
+            <div className="flex justify-between text-sm">
+              <span>0 used of 70</span>
+            </div>
+            <Progress
+              value={0}
+              maxValue={70}
+              classNames={{
+                base: "h-2",
+                track: "bg-blue-100",
+                indicator: "bg-blue-500",
+              }}
+            />
+          </div>
+
+          <div className="text-sm text-gray-500 flex items-center gap-1">
+            <span>Last calculated: Mar 10, 2025, 10:56 PM</span>
+            <Link href="#" className="text-blue-600 font-medium">
+              Update
+            </Link>
+          </div>
+
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <p className="text-sm font-medium mb-2">cost per contact:</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Phone size={18} className="text-gray-500" />
+                  <span className="text-gray-500">phone</span>
+                </div>
+                <span className="font-medium">10 credits</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Mail size={18} className="text-gray-500" />
+                  <span className="text-gray-500">email</span>
+                </div>
+                <span className="font-medium">1 credit</span>
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* PeopleDB Platform Card */}
+      <Card className="shadow-sm">
+        <CardHeader className="pb-0">
+          <h3 className="text-lg font-semibold">PeopleDB platform</h3>
+        </CardHeader>
+        <CardBody>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Rocket size={18} className="text-gray-500" />
+                <span>Onboarding</span>
+              </div>
+              <ExternalLink size={16} className="text-gray-400" />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Search size={18} className="text-gray-500" />
+                <span>Prospecting platform</span>
+              </div>
+              <ExternalLink size={16} className="text-gray-400" />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Send size={18} className="text-gray-500" />
+                <span>Sequences</span>
+              </div>
+              <ExternalLink size={16} className="text-gray-400" />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <List size={18} className="text-gray-500" />
+                <span>Lists</span>
+              </div>
+              <ExternalLink size={16} className="text-gray-400" />
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Puzzle size={18} className="text-gray-500" />
+                <span>Integrations</span>
+              </div>
+              <ExternalLink size={16} className="text-gray-400" />
+            </div>
+          </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };
@@ -314,8 +605,8 @@ export const Drawer = () => {
         return <ProspectTab />;
       case "search":
         return <SearchTab />;
-      case "activity":
-        return <ActivityTab />;
+      // case "activity":
+      //   return <ActivityTab />;
       case "more":
         return <MoreTab />;
       default:
@@ -350,14 +641,14 @@ export const Drawer = () => {
               {renderTabContent()}
             </DrawerBody>
 
-            <DrawerFooter className="border-t bg-white pt-3 h-20">
+            <DrawerFooter className="border-t bg-white !pt-4 h-20 !py-2 flex items-center justify-center">
               <Tabs
                 selectedKey={activeTab}
                 onSelectionChange={(key) => setActiveTab(key as string)}
                 variant="underlined"
                 classNames={{
                   base: "w-full",
-                  tabList: "w-full grid grid-cols-4 py-2",
+                  tabList: "w-full grid grid-cols-3 py-2",
                   cursor: "bg-blue-500",
                   tab: "pb-4",
                 }}
@@ -381,7 +672,7 @@ export const Drawer = () => {
                     </div>
                   }
                 />
-                <Tab
+                {/* <Tab
                   key="activity"
                   title={
                     <div className="flex flex-col items-center ">
@@ -389,7 +680,7 @@ export const Drawer = () => {
                       <span className="text-xs mt-1">Activity</span>
                     </div>
                   }
-                />
+                /> */}
                 <Tab
                   key="more"
                   title={
