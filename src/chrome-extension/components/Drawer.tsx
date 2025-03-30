@@ -17,11 +17,9 @@ import {
   CardHeader,
 } from "@nextui-org/react";
 import {
-  // Award,
   BarChart,
   BarChart2,
   Briefcase,
-  // Clock,
   ExternalLink,
   Globe,
   Info,
@@ -43,9 +41,8 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-// Prospect Tab Component
 const ProspectTab = () => {
   const [showPhone, setShowPhone] = useState(false);
 
@@ -163,9 +160,163 @@ const ProspectTab = () => {
   );
 };
 
-// Search Tab Component
+function useLocalSearchFilter() {
+  const [searchFilters, setSearchFilters] = useState({
+    sortBy: "updatedAt",
+    sortOrder: "desc",
+    companyName: "",
+    domain: "",
+    search: "",
+    contactName: "",
+    jobTitle: "",
+    location: [],
+    industry: [],
+    employeeSize: [],
+    departments: [],
+    seniority: [],
+    zipCode: "",
+    country: [],
+    state: [],
+    city: [],
+    linkedinUrl: "",
+    industryType: [],
+    companySize: [],
+    page: 1,
+    limit: 10,
+  });
+
+  const [searchType, setSearchType] = useState("contacts");
+
+  const getUrlParamsString = useCallback(
+    (params = {}, type = searchType) => {
+      const urlParams = new URLSearchParams();
+
+      urlParams.append("searchType", type);
+
+      const mergedFilters = {
+        ...searchFilters,
+        ...params,
+      };
+
+      Object.entries(mergedFilters).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          if (value.length > 0) {
+            value.forEach((item) => urlParams.append(key, item));
+          }
+        } else if (value !== "" && value !== null && value !== undefined) {
+          urlParams.append(key, String(value));
+        }
+      });
+
+      return urlParams.toString();
+    },
+    [searchFilters, searchType]
+  );
+
+  const setSearchParams = useCallback((params: any) => {
+    setSearchFilters((prev) => ({
+      ...prev,
+      page: 1,
+      ...params,
+    }));
+    return params;
+  }, []);
+
+  const clearFilters = useCallback(() => {
+    setSearchFilters({
+      sortBy: "updatedAt",
+      sortOrder: "desc",
+      companyName: "",
+      domain: "",
+      search: "",
+      contactName: "",
+      jobTitle: "",
+      location: [],
+      industry: [],
+      employeeSize: [],
+      departments: [],
+      seniority: [],
+      zipCode: "",
+      country: [],
+      state: [],
+      city: [],
+      linkedinUrl: "",
+      industryType: [],
+      companySize: [],
+      page: 1,
+      limit: 10,
+    });
+  }, []);
+
+  return {
+    searchFilters,
+    setSearchFilters,
+    searchType,
+    setSearchType,
+    setSearchParams,
+    clearFilters,
+    getUrlParamsString,
+  };
+}
+
 const SearchTab = () => {
-  const [selected, setSelected] = useState("contacts");
+  const {
+    searchType,
+    setSearchType,
+    setSearchParams,
+    clearFilters,
+    getUrlParamsString,
+  } = useLocalSearchFilter();
+
+  const [jobTitle, setJobTitle] = useState("");
+  const [contactLocation, setContactLocation] = useState("");
+  const [department, setDepartment] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyLocation, setCompanyLocation] = useState("");
+  const [companySize, setCompanySize] = useState("");
+
+  const clearInputFields = () => {
+    setJobTitle("");
+    setContactLocation("");
+    setDepartment("");
+    setIndustry("");
+    setCompanyName("");
+    setCompanyLocation("");
+    setCompanySize("");
+  };
+
+  const handleTabChange = (key: string) => {
+    clearFilters();
+    clearInputFields();
+
+    setSearchType(key);
+  };
+
+  const handleSearch = () => {
+    let params = {};
+    let type = searchType;
+
+    if (searchType === "contacts") {
+      params = {
+        jobTitle,
+        location: contactLocation ? [contactLocation] : [],
+        departments: department ? [department] : [],
+        industry: industry ? [industry] : [],
+      };
+    } else if (searchType === "companies") {
+      params = {
+        companyName,
+        location: companyLocation ? [companyLocation] : [],
+        companySize: companySize ? [companySize] : [],
+        industry: industry ? [industry] : [],
+      };
+    }
+
+    console.log("Search URL params:", getUrlParamsString(params, type));
+
+    setSearchParams(params);
+  };
 
   return (
     <div className="max-w-md mx-auto bg-white flex flex-col justify-stretch">
@@ -177,8 +328,8 @@ const SearchTab = () => {
       </div>
 
       <Tabs
-        selectedKey={selected}
-        onSelectionChange={(key) => setSelected(key.toString())}
+        selectedKey={searchType}
+        onSelectionChange={handleTabChange as (key: any) => void}
         classNames={{
           tabList:
             "gap-6 w-full relative rounded-none p-0 border-b border-divider",
@@ -200,7 +351,7 @@ const SearchTab = () => {
         >
           <div className="mt-4 space-y-4">
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <Briefcase className="w-5 h-5" />
                 <span className="font-medium">Job title</span>
               </div>
@@ -211,11 +362,13 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Job title"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={jobTitle}
+                onValueChange={setJobTitle}
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <MapPin className="w-5 h-5" />
                 <span className="font-medium">Contact location</span>
               </div>
@@ -226,26 +379,13 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Contact location"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={contactLocation}
+                onValueChange={setContactLocation}
               />
             </div>
 
-            {/* <div>
-              <div className="flex items-center gap-2 text-black mb-1">
-                <Award className="w-5 h-5" />
-                <span className="font-medium">Seniority</span>
-              </div>
-              <Input
-                classNames={{
-                  base: "max-w-full",
-                  inputWrapper: "border-1 rounded-md h-12",
-                }}
-                placeholder="Enter Seniority"
-                startContent={<Search className="w-5 h-5 text-gray-400" />}
-              />
-            </div> */}
-
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <Users className="w-5 h-5" />
                 <span className="font-medium">Department</span>
               </div>
@@ -256,11 +396,13 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Department"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={department}
+                onValueChange={setDepartment}
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <BarChart className="w-5 h-5" />
                 <span className="font-medium">Industry</span>
               </div>
@@ -271,23 +413,10 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Main industry"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={industry}
+                onValueChange={setIndustry}
               />
             </div>
-
-            {/* <div>
-              <div className="flex items-center gap-2 text-black mb-1">
-                <BarChart2 className="w-5 h-5" />
-                <span className="font-medium">Sub industry</span>
-              </div>
-              <Input
-                classNames={{
-                  base: "max-w-full",
-                  inputWrapper: "border-1 rounded-md h-12",
-                }}
-                placeholder="Enter Sub industry"
-                startContent={<Search className="w-5 h-5 text-gray-400" />}
-              />
-            </div> */}
           </div>
         </Tab>
         <Tab
@@ -301,7 +430,7 @@ const SearchTab = () => {
         >
           <div className="mt-4 space-y-4">
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <BarChart2 className="w-5 h-5" />
                 <span className="font-medium">Company name</span>
               </div>
@@ -312,11 +441,13 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Company name"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={companyName}
+                onValueChange={setCompanyName}
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <MapPin className="w-5 h-5" />
                 <span className="font-medium">Company location</span>
               </div>
@@ -325,13 +456,15 @@ const SearchTab = () => {
                   base: "max-w-full",
                   inputWrapper: "border-1 rounded-md h-12",
                 }}
-                placeholder="Enter Company location"
+                placeholder="Enter Contact location"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={companyLocation}
+                onValueChange={setCompanyLocation}
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <Users className="w-5 h-5" />
                 <span className="font-medium">Company size</span>
               </div>
@@ -342,11 +475,13 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Company size"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={companySize}
+                onValueChange={setCompanySize}
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-black mb-1">
+              <div className="flex items-center gap-2 text-blue-600 mb-1">
                 <BarChart className="w-5 h-5" />
                 <span className="font-medium">Industry</span>
               </div>
@@ -357,28 +492,15 @@ const SearchTab = () => {
                 }}
                 placeholder="Enter Industry"
                 startContent={<Search className="w-5 h-5 text-gray-400" />}
+                value={industry}
+                onValueChange={setIndustry}
               />
             </div>
-
-            {/* <div>
-              <div className="flex items-center gap-2 text-black mb-1">
-                <BarChart2 className="w-5 h-5" />
-                <span className="font-medium">Sub industry</span>
-              </div>
-              <Input
-                classNames={{
-                  base: "max-w-full",
-                  inputWrapper: "border-1 rounded-md h-12",
-                }}
-                placeholder="Enter Sub industry"
-                startContent={<Search className="w-5 h-5 text-gray-400" />}
-              />
-            </div> */}
           </div>
         </Tab>
       </Tabs>
 
-      <Button className="w-full" variant="bordered">
+      <Button className="w-full mt-4" color="primary" onClick={handleSearch}>
         <Search className="w-5 h-5" />
         <span>Search</span>
       </Button>
@@ -432,11 +554,9 @@ const SearchTab = () => {
 //   );
 // };
 
-// More Tab Component
 const MoreTab = () => {
   return (
     <div className="max-w-md mx-auto space-y-4">
-      {/* Profile Header */}
       <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm">
         <div className="flex items-center gap-3">
           <Avatar
@@ -566,10 +686,8 @@ export const Drawer = () => {
     };
 
     const handleMessage = (event: MessageEvent) => {
-      console.log("Received message:", event.data);
       try {
         if (event.data && event.data.type === "OPEN_PEOPLEDB_DRAWER") {
-          console.log("Opening drawer");
           onOpen();
         }
       } catch (error) {
